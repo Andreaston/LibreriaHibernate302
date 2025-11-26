@@ -16,8 +16,7 @@ public class Libros {
     public Libros() {
     }
 
-    public Libros(int idLibro, String titulo, double precio) {
-        this.idLibro = idLibro;
+    public Libros(String titulo, double precio) {
         this.titulo = titulo;
         this.precio = precio;
     }

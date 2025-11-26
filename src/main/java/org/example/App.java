@@ -4,9 +4,12 @@ import org.example.Entidades.Autores;
 import org.example.Entidades.Libros;
 import org.example.Entidades.Telefonos;
 import org.example.Repositorios.RepoAutor;
+import org.example.Repositorios.RepoLibro;
+import org.example.Repositorios.RepoTelef;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -17,8 +20,11 @@ public class App{
     public static void main( String[] args ){
 
         Session session = HibernateUtil.get().openSession();
-        Transaction transaction = session.beginTransaction();
+        //Transaction transaction = session.beginTransaction();
+
         RepoAutor repoAutor = new RepoAutor(session);
+        RepoLibro repoLibro = new RepoLibro(session);
+        RepoTelef repoTelef = new RepoTelef(session);
         /*
         Autores autor1 = new Autores("11111111A", "J.R.R. Tolkien", "Británica");
         Autores autor2 = new Autores("22222222B", "Gabriel García Márquez", "Colombiana");
@@ -89,9 +95,9 @@ public class App{
 
         do {
             System.out.println("1.Crear autor");
-            System.out.println("2.");
-            System.out.println("3.");
-            System.out.println("4.");
+            System.out.println("2.Crear libro");
+            System.out.println("3.Enlazar autor y libro");
+            System.out.println("4.Insertar teléfono a autor");
             System.out.println("5.");
             System.out.println("6.");
             System.out.println("7.");
@@ -115,10 +121,39 @@ public class App{
                     repoAutor.crearAutor(dni,nombre,nacionalidad);
                     break;
                 case 2:
+                    try{
+                        leer.nextLine();
+                        System.out.println("Dime el título del nuevo libro");
+                        String titulo = leer.nextLine();
+                        System.out.println("Dime el precio de " + titulo);
+                        double precio = leer.nextDouble();
+                        repoLibro.nuevoLibro(titulo,precio);
+                    } catch (InputMismatchException e){
+                        System.out.println("Escribe los decimales con coma \",\" no con punto \".\"");
+                        leer.nextLine();
+                    }
+
                     break;
                 case 3:
+                    leer.nextLine();
+                    System.out.println("Dime el ID del libro");
+                    int idL = leer.nextInt();
+                    leer.nextLine();
+                    System.out.println("Dime el DNI del autor");
+                    String idA = leer.nextLine();
+
+                    repoLibro.ligarAutorLibro(idL,idA);
+
                     break;
                 case 4:
+                    leer.nextLine();
+                    System.out.println("Dime el DNI del autor");
+                    String dniT = leer.nextLine();
+                    System.out.println("Dime el nº de teléfono");
+                    String tlf = leer.nextLine();
+
+                    repoTelef.vincularTelefonoAutor(dniT,tlf);
+
                     break;
                 case 5:
                     break;
