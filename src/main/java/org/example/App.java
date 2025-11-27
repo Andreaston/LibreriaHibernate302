@@ -98,12 +98,12 @@ public class App{
             System.out.println("2.Crear libro");
             System.out.println("3.Enlazar autor y libro");
             System.out.println("4.Insertar teléfono a autor");
-            System.out.println("5.");
-            System.out.println("6.");
-            System.out.println("7.");
-            System.out.println("8.");
-            System.out.println("9.");
-            System.out.println("10.");
+            System.out.println("5.Eliminar Autor");
+            System.out.println("6.Eliminar Libro");
+            System.out.println("7.Buscar libro por título");
+            System.out.println("8.Buscar los libros de un determinado autor");
+            System.out.println("9.Visualizar todos los libros");
+            System.out.println("10.Visualizar todos los autores y sus libros");
             System.out.println("11. SALIR");
             System.out.println("OPCION:");
 
@@ -156,16 +156,33 @@ public class App{
 
                     break;
                 case 5:
+                    leer.nextLine();
+                    System.out.println("Dime el DNI del autor a eliminar");
+                    String dniE = leer.nextLine();
+                    repoAutor.eliminarAutor(dniE);
                     break;
                 case 6:
+                    System.out.println("Dime el ID del libro a eliminar");
+                    int idLibroEli = leer.nextInt();
+                    repoLibro.eliminarLibro(idLibroEli);
                     break;
                 case 7:
+                    leer.nextLine();
+                    System.out.println("Dime el título del libro");
+                    String titulo = leer.nextLine();
+                    repoLibro.buscarLibro(titulo);
                     break;
                 case 8:
+                    leer.nextLine();
+                    System.out.println("Dime el DNI del autor");
+                    String autorDNI = leer.nextLine();
+                    repoAutor.buscarLibrosAutores(autorDNI);
                     break;
                 case 9:
+                    repoLibro.visualizarLibros();
                     break;
                 case 10:
+                    repoAutor.mostrarAutoresLibros();
                     break;
                 case 11:
                     System.out.println("Con Deus!!");

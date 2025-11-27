@@ -7,6 +7,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Queue;
 
 public class RepoLibro {
@@ -48,6 +49,46 @@ public class RepoLibro {
 
         transaction.commit();
         System.out.println("Se ha creado la relación");
+    }
+
+    public void eliminarLibro(int id){
+        Transaction transaction = this.session.beginTransaction();
+
+        Libros libros = session.find(Libros.class,id);
+        if (libros == null){
+            System.out.println("El libro no existe");
+            return;
+        }
+
+        for (Autores autor : libros.getAutores()){
+            autor.getLibros().remove(libros);
+        }
+
+        session.remove(libros);
+
+        transaction.commit();
+    }
+
+    public void buscarLibro(String titulo){
+
+        Query query = session.createQuery("select l from Libros l where l.titulo = :titulo").setParameter("titulo",titulo);
+
+        Libros libros = (Libros) query.getSingleResult();
+
+        System.out.println(libros.toString());
+
+    }
+
+
+    public void visualizarLibros(){
+        Query query = session.createQuery("from Libros");
+
+        List<Libros> librosList = query.getResultList();
+
+        for (Libros libros : librosList){
+            System.out.println(libros.toString());
+        }
+
     }
 
 
